@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CareerConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .welcome-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            font-weight: 400;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dashboard-section {
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .action-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .action-item {
+            opacity: 0;
+            animation: slideInLeft 0.6s ease-out forwards;
+        }
+
+        .action-item:nth-child(1) { animation-delay: 0.6s; }
+        .action-item:nth-child(2) { animation-delay: 0.8s; }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .action-link {
+            display: block;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, #f8f9ff, #e8ecff);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .action-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .action-link:hover::before {
+            left: 100%;
+        }
+
+        .action-link:active {
+            transform: translateY(0);
+        }
+
+        .no-role-message {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            border-radius: 12px;
+            color: #d63031;
+            font-size: 1.1rem;
+            font-weight: 500;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .logout-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out 1s both;
+        }
+
+        .logout-link {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(232, 67, 147, 0.3);
+        }
+
+        .logout-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(232, 67, 147, 0.4);
+        }
+
+        .decorative-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .circle:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+
+        .circle:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 2s;
+        }
+
+        .circle:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 50%;
+            right: 5%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .action-link {
+                padding: 15px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="decorative-elements">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+        
+        <div class="welcome-header">
+		  <h1 class="welcome-title">smartproject\template\accounts\dashboard</h1>
+          
+            <h1 class="welcome-title">Welcome Back!</h1>
+            <p class="welcome-subtitle">{{ user.username }}</p>
+        </div>
+
+{% if user.is_jobseeker %}
+    <div class="dashboard-section">
+        <h2 class="section-title">
+            <span class="section-icon">👤</span>
+            Job Seeker Dashboard
+        </h2>
+        <ul class="action-list">
+            <li class="action-item">
+                <a href="{% url 'upload_resume' %}" class="action-link">
+                    📄 Upload Resume and Match Jobs
+                </a>
+            </li>
+            <li class="action-item">
+                <a href="{% url 'browse_jobs' %}" class="action-link">
+                    🔍 Browse & Apply for Jobs
+                </a>
+            </li>
+        </ul>
+    </div>
+{% elif user.is_company %}
+
+
+            <div class="dashboard-section">
+                <h2 class="section-title">
+                    <span class="section-icon">🏢</span>
+                    Company Dashboard
+                </h2>
+                <ul class="action-list">
+                    <li class="action-item">
+                        <a href="{% url 'post_job' %}" class="action-link">
+                            ✨ Post a Job
+                        </a>
+                    </li>
+                    <li class="action-item">
+                        <a href="{% url 'company_jobs' %}" class="action-link">
+                            📊 View My Job Listings
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        {% else %}
+            <div class="dashboard-section">
+                <div class="no-role-message">
+                    ⚠️ No role assigned to this user. Please contact support for assistance.
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="logout-section">
+            <a href="{% url 'logout_view' %}" class="logout-link">
+                🚪 Logout
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "Data Scientist": ["machine learning", "python", "data analysis", "pandas"],
+  "Web Developer": ["html", "css", "javascript", "django"],
+  "AI Engineer": ["deep learning", "tensorflow", "pytorch", "nlp"]
+}

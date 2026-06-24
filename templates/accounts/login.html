@@ -1,0 +1,419 @@
+<!-- templates/accounts/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smart Resume Analyzer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #4ecdc4, #45b7d1);
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .logo::before {
+            content: "🎯";
+            font-size: 28px;
+        }
+
+        .login-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .error-message {
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .error-message::before {
+            content: "⚠️";
+            font-size: 16px;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: white;
+            color: #333;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        .login-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-button:hover::before {
+            left: 100%;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e1e5e9;
+            z-index: 1;
+        }
+
+        .divider span {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .signup-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .signup-links p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .signup-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .signup-button {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 16px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid #e1e5e9;
+            color: #667eea;
+            background: white;
+        }
+
+        .signup-button:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-1px);
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .back-home::before {
+            content: "←";
+            font-size: 16px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            .signup-buttons {
+                flex-direction: column;
+            }
+            
+            .signup-button {
+                min-width: unset;
+            }
+        }
+
+        /* Animation */
+        .login-container {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading State */
+        .login-button.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .login-button.loading::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-home">Back to Home</a>
+    
+    <div class="login-container">
+        <div class="logo-section">
+            <a href="/" class="logo">Smart Resume Analyzer</a>
+            <p class="login-subtitle">AI-Powered Career Intelligence</p>
+        </div>
+
+        <div class="login-header">
+            <h2>Welcome Back</h2>
+            <p>Sign in to your account to continue</p>
+        </div>
+
+        {% if form.errors %}
+            <div class="error-message">
+                Invalid username or password. Please try again.
+            </div>
+        {% endif %}
+
+        <form method="post" id="loginForm">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="login-button" id="loginButton">
+                Sign In
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>Don't have an account?</span>
+        </div>
+
+        <div class="signup-links">
+            <p>Choose your account type:</p>
+            <div class="signup-buttons">
+                <a href="{% url 'jobseeker_signup' %}" class="signup-button">Job Seeker</a>
+                <a href="{% url 'company_signup' %}" class="signup-button">Company</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function() {
+            const button = document.getElementById('loginButton');
+            button.classList.add('loading');
+            button.innerHTML = '';
+        });
+
+        // Add focus effects
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

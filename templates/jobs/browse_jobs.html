@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Jobs - CareerConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .back-nav {
+            margin-bottom: 30px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .back-link:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateX(-3px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .job-card {
+            background: linear-gradient(135deg, #f8f9ff, #e8ecff);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .job-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .job-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .job-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .job-details {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .job-detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .detail-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+            min-width: 80px;
+        }
+
+        .detail-content {
+            color: #666;
+            flex: 1;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .apply-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 184, 148, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            border-radius: 16px;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #d63031;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .jobs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-nav">
+            <a href="{% url 'dashboard' %}" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Dashboard
+            </a>
+        </div>
+        
+        <div class="header">
+            <h1 class="main-title">Browse Jobs</h1>
+            <p class="subtitle">Find your perfect opportunity</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="success-message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% if jobs %}
+            <div class="jobs-grid">
+                {% for job in jobs %}
+                    <div class="job-card">
+                        <h3 class="job-title">
+                            <span class="job-icon">💼</span>
+                            {{ job.title }}
+                        </h3>
+
+                        <p class="job-description">{{ job.description|truncatewords:20 }}</p>
+
+                        <div class="job-details">
+                            <div class="job-detail-item">
+                                <span class="detail-icon">🏢</span>
+                                <span class="detail-label">Company:</span>
+                                <span class="detail-content">{{ job.company.username }}</span>
+                            </div>
+
+                            <div class="job-detail-item">
+                                <span class="detail-icon">📍</span>
+                                <span class="detail-label">Location:</span>
+                                <span class="detail-content">{{ job.location }}</span>
+                            </div>
+
+                            <div class="job-detail-item">
+                                <span class="detail-icon">🎯</span>
+                                <span class="detail-label">Skills:</span>
+                                <div class="detail-content">
+                                    <div class="skills-container">
+                                        {% for skill in job.skills_list %}
+                                            <span class="skill-tag">{{ skill }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="job-detail-item">
+                                <span class="detail-icon">📅</span>
+                                <span class="detail-label">Posted:</span>
+                                <span class="detail-content">{{ job.posted_at|date:"M d, Y" }}</span>
+                            </div>
+                        </div>
+
+                        <form method="post" action="{% url 'apply_job' job.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="apply-btn">Apply Now</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📋</div>
+                <h2 class="empty-title">No Jobs Available</h2>
+                <p>Check back later for new opportunities!</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

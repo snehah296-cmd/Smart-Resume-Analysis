@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head><title>Match Jobs</title></head>
+<body>
+    <h2>Upload Your Resume</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload & Match</button>
+    </form>
+
+    {% if skills %}
+        <h3>Extracted Skills:</h3>
+        <p>{{ skills|join:", " }}</p>
+    {% endif %}
+
+    {% if matched_jobs %}
+        <h3>Matching Jobs:</h3>
+        <ul>
+            {% for job, score in matched_jobs %}
+                <li>
+                    <strong>{{ job.title }}</strong> ({{ score }} skill matches)<br>
+                    {{ job.description }}<br>
+                    <em>Required Skills:</em> {{ job.required_skills }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif skills %}
+        <p>No matching jobs found.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title> not running presently User Dashboard</title></head>
+<body>
+    <h2>Welcomeing, {{ user.username }} of Account</h2>
+    {% if user.is_jobseeker %}
+        <p>You are logged in as a <strong>Job Seeker</strong>.</p>
+        <ul>
+            <li><a href="#">Upload Resume</a></li>
+            <li><a href="#">View Matched Jobs</a></li>
+        </ul>
+    {% elif user.is_company %}
+        <p>You are logged in as a <strong>Company</strong>.</p>
+        <ul>
+            <li><a href="#">Post a Job</a></li>
+            <li><a href="#">View Applicants</a></li>
+        </ul>
+    {% else %}
+        <p>Unknown user type.</p>
+    {% endif %}
+</body>
+</html>

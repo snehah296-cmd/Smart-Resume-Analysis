@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Resumes</title>
+</head>
+<body>
+    <h1>Uploaded Resumes</h1>
+
+    {% if resumes %}
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Resume Name</th>
+                    <th>Matched Role</th>
+                    <th>Score (%)</th>
+                    <th>Uploaded At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resume in resumes %}
+                <tr>
+                    <td>{{ resume.file.name }}</td>
+                    <td>{{ resume.matched_role }}</td>
+                    <td>{{ resume.score }}</td>
+                    <td>{{ resume.uploaded_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No resumes uploaded yet.</p>
+    {% endif %}
+</body>
+</html>

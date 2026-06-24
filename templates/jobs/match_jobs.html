@@ -1,0 +1,38 @@
+<!-- templates/jobs/match_jobs.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Match Jobs</title>
+</head>
+<body>
+    <h2>Upload Your Resume to Match Jobs</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if skills %}
+        <h3>Extracted Skills from Resume:</h3>
+        <ul>
+            {% for skill in skills %}
+                <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if matched_jobs %}
+        <h3>Matched Jobs</h3>
+        {% for job, score in matched_jobs %}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                <h4>{{ job.title }}</h4>
+                <p>{{ job.description }}</p>
+                <p><strong>Location:</strong> {{ job.location }}</p>
+                <p><strong>Required Skills:</strong> {{ job.required_skills }}</p>
+                <p><strong>Match Score:</strong> {{ score }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
